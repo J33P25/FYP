@@ -1,0 +1,31 @@
+services:
+  app:
+    build: .
+    image: green-edge-webhook:local
+    ports:
+      - "5000:5000"
+    environment:
+      ELECTRICITY_MAPS_TOKEN: ${ELECTRICITY_MAPS_TOKEN:-}
+      ELECTRICITY_MAPS_ZONE: ${ELECTRICITY_MAPS_ZONE:-IN}
+    networks: [green-observability]
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks: [green-observability]
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    ports:
+      - "3000:3000"
+    depends_on: [prometheus]
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana-dashboard.json:/var/lib/grafana/dashboards/green-edge.json:ro
+    networks: [green-observability]
+
+networks:
+  green-observability:

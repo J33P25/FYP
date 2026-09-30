@@ -1,0 +1,10 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: green-edge
+servers: 1
+agents: 3
+ports:
+  - port: 5000:30080
+    nodeFilters:
+      - loadbalancer

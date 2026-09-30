@@ -1,0 +1,25 @@
+{
+  "title": "Green Edge Telemetry",
+  "schemaVersion": 39,
+  "time": {"from": "now-15m", "to": "now"},
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Node temperature",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [{"expr": "edge_node_temperature_celsius", "legendFormat": "{{node}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Node power",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [{"expr": "edge_node_power_watts", "legendFormat": "{{node}}"}]
+    },
+    {
+      "type": "stat",
+      "title": "Busy nodes",
+      "gridPos": {"h": 5, "w": 8, "x": 0, "y": 8},
+      "targets": [{"expr": "sum(edge_node_busy)"}]
+    }
+  ]
+}
